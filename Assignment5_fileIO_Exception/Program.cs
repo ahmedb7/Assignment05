@@ -13,18 +13,18 @@ namespace Assignment5_fileIO_Exception
         {
             menuMethod();
         }
-        //++++++++++++++++++++Menu Method++++++++++++++++++++++++++++++++++++++++++++++++
+        //Menu Method
         private static void menuMethod()
         {
-            string pathName = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //declear the current path as a pathName
-            string fileName = "GradeFile.txt"; //declear the file name
+            string pathName = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //declares the current path as pathName
+            string fileName = "GradeFile.txt"; //declares the file name
 
-            int choice = 0; //declear local variable for choice
+            int choice = 0; 
 
-            while (choice != 2) //while loop menu
+            while (choice != 2) 
             {
                 Console.WriteLine("+++++++++++++++++++++++++++");
-                Console.WriteLine("+           Menu          +");
+                Console.WriteLine("+          Menu           +");
                 Console.WriteLine("+     1.Display Grades    +");
                 Console.WriteLine("+     2.Exit              +");
                 Console.WriteLine("+++++++++++++++++++++++++++");
@@ -42,25 +42,25 @@ namespace Assignment5_fileIO_Exception
                 switch (choice)
                 {
                     case 1:
-                        WriteFileMethod(pathName, fileName); //created the text file
-                        fileCheck(); //check file if exist
-                        ReadFileMethod(pathName, fileName); //display the file on console
+                        fileWriteMethod(pathName, fileName); //created the text file
+                        fileCheck(); //check file
+                        fileReadMethod(pathName, fileName); //display the file on console
                         break;
-                    case 2://select to exit
+                    case 2:
                         Console.WriteLine();
                         break;
-                    default: //display incorrect input message
+                    default: 
                         Console.WriteLine();
-                        Console.WriteLine("Incorrect input, please try again!");
+                        Console.WriteLine("Incorrect entry, please try again!");
                         Console.WriteLine();
-                        WaitForKey(); //if incorrect input, then display wait for key info
+                        WaitForKey(); 
                         break;
                 }
-                Console.Clear(); //clear the screen
+                Console.Clear(); 
 
             }
         }
-        //++++++++++++++++++++++FileCheck Method++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //FileCheck Method
         private static void fileCheck()
         {
             string prompt;
@@ -87,5 +87,81 @@ namespace Assignment5_fileIO_Exception
             WaitForKey();
         }
 
+        //WriteFile Method
+        private static void fileWriteMethod(string pathName, string fileName)
+        {
+
+            try
+            {
+                FileStream outFile = new FileStream(pathName + fileName, FileMode.Create, FileAccess.Write); //created a outFile in current path
+                StreamWriter writer = new StreamWriter(outFile); //declares a wirter variable
+
+                
+                string[] firstName = { "Jones", "Johnson", "Smith" };
+                string[] lastName = { "Bob", "Sarah", "Sam" };
+                int[] ID = { 1, 2, 3 };
+                string[] classes = { "Introduction to Computer Science", "Data Structures", "Data Structures" };
+                string[] grade = { "A-", "B+", "C" };
+
+                
+                for (int i = 0; i < 3; i++)
+                {
+                    writer.WriteLine("{0}, {1}: {2} {3}, {4}", firstName[i], lastName[i], ID[i], classes[i], grade[i]);
+                }
+
+                writer.Close(); // closes the file
+                outFile.Close(); // closes the  file stream
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine("Your code caused has caused an error!!!");
+                Console.WriteLine("Error: {0} ", error.Message);
+            }
+        }
+
+        //File Read Method
+        private static void fileReadMethod(string pathName, string fileName)
+        {
+            string fileData = "";
+            string[] fileArray = new string[10];
+            try
+            {
+                FileStream inFile = new FileStream(pathName + fileName, FileMode.Open, FileAccess.Read);
+                StreamReader reader = new StreamReader(inFile);
+
+                for (int row = 0; row < 10; row++)
+                {
+                    fileData = reader.ReadLine();
+                    fileArray[row] = fileData;
+
+                    Console.WriteLine("Your Data: {0}", fileData);
+                } 
+                reader.Close(); // closes the file
+                inFile.Close(); // closes the  file stream
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine("Your code caused a darn error!!!");
+                Console.WriteLine("Error: {0} ", error.Message);
+
+            }
+        }
+
+
+        
+        private static void WaitForKey()
+        {
+            Console.WriteLine();
+            Console.WriteLine("++++++++++++++++++++++++++++++++++");
+            Console.WriteLine("   Press any key to continue...   ");
+            Console.WriteLine("++++++++++++++++++++++++++++++++++");
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+
+
     }
+
+    
 }
