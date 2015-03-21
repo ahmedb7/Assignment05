@@ -17,7 +17,7 @@ namespace Assignment5_fileIO_Exception
         private static void menuMethod()
         {
             string pathName = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //declares the current path as pathName
-            string fileName = "GradeFile.txt"; //declares the file name
+            string fileName = "GradesFile.txt"; //declares the file name
 
             int choice = 0; 
 
